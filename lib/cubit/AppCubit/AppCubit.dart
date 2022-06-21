@@ -11,12 +11,88 @@ import 'package:shopapp/view/screen/ShopScreens/Favourites.dart';
 import 'package:shopapp/view/screen/ShopScreens/Products.dart';
 import 'package:shopapp/view/screen/ShopScreens/Settings.dart';
 
+import '../../controller/CacheHelper.dart';
+import '../../model/LoginData/LoginData.dart';
 import '../../model/ProfileModel/ProfileModel.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
 
   static AppCubit get(context) => BlocProvider.of<AppCubit>(context);
+  List<String>titles=
+  [
+    '',
+    '',
+    '',
+    'Settings',
+  ];
+  bool isDark =false;
+  void changeMode({ var isShared})
+  {
+    if(isShared != null){
+      isDark = isShared;
+      emit(ChangeDarkMode());
+
+    }else{
+      isDark =!isDark;
+      CacheHelper.saveData(key: 'isDark', value: isDark)
+          .then((value)
+      {
+        emit(ChangeDarkMode());
+      });
+
+    }
+
+  }
+  bool isPassword = true;
+  Widget suffixIcon = Icon(
+    Icons.visibility,
+    color: Colors.grey,
+  );
+
+  void changePassMode() {
+    isPassword = !isPassword;
+    if (isPassword) {
+      suffixIcon = Icon(
+        Icons.visibility,
+        color: Colors.grey,
+      );
+    } else {
+      suffixIcon = Icon(
+        Icons.visibility_off,
+        color: Colors.blue,
+      );
+    }
+
+    emit(ChangeMode());
+  }
+  LoginData? loginData;
+  void userLogin({required String email, required String password}) {
+    emit(LoginLoadState());
+    DioHelper.postData(
+        url: 'login',
+        data: {'email': email, 'password': password}).then((value) {
+      print(value.data);
+      loginData = LoginData.fromJson(value.data);
+      emit(LoginSuccessState(loginData!));
+    }).catchError((onError) {
+      print(onError.toString());
+      emit(LoginErrorState());
+    });
+  }
+
+  void userRegister({required String email, required String password,required String phone,required String name}) {
+    emit(RegisterLoadState());
+    DioHelper.postData(
+        url: 'register',
+        data: {'email': email, 'password': password,'name':name,'phone':phone}).then((value) {
+      print(value.data);
+      emit(RegisterSuccessState());
+    }).catchError((onError) {
+      print(onError.toString());
+      emit(RegisterErrorState());
+    });
+  }
   int currentIndex = 0;
 
   void changeIndex(index) {
@@ -98,7 +174,7 @@ token: token).then((value)
 
       profileModel = ProfileModel.fromJson(value.data);
 
-      emit(ProfileSuccessState());
+      emit(ProfileSuccessState( profileModel));
     }).catchError((error) {
       emit(ProfileErrorState());
     });

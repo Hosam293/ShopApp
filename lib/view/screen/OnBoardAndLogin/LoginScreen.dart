@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopapp/controller/CacheHelper.dart';
+import 'package:shopapp/cubit/AppCubit/AppCubit.dart';
 import 'package:shopapp/cubit/ShopCubit/ShopCubit.dart';
-import 'package:shopapp/cubit/ShopCubit/ShopStates.dart';
 import 'package:shopapp/view/screen/OnBoardAndLogin/RegisterScreen.dart';
 import 'package:shopapp/view/screen/ShopLayout.dart';
+
+import '../../../cubit/AppCubit/AppStates.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -17,7 +19,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ShopCubit,ShopStates>(
+    return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state)
       {
         if(state is LoginSuccessState)
@@ -46,7 +48,7 @@ class LoginScreen extends StatelessWidget {
       },
       builder: (context,state)
       {
-        var cubit = BlocProvider.of<ShopCubit>(context);
+        var cubit = BlocProvider.of<AppCubit>(context);
         return Scaffold(
           appBar: AppBar(),
           body: Padding(
@@ -195,6 +197,7 @@ class LoginScreen extends StatelessWidget {
                             );
                           }, child: Text(
                             'Register Now',
+                            style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 15,color: Colors.blue),
                           ),
 
                           )

@@ -15,14 +15,18 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
-      listener: (context,state){},
+      listener: (context,state){
+        if(state is ProfileSuccessState){
+          nameController.text =state.profileModel!.data!.name!;
+          emailController.text =state.profileModel!.data!.email!  ;
+          phoneController.text =state.profileModel!.data!.phone!  ;
+        }
+      },
       builder: (context,state)
       {
 
         var cubit = BlocProvider.of<AppCubit>(context);
-        nameController.text =cubit.profileModel!.data!.name!;
-        emailController.text =cubit.profileModel!.data!.email!  ;
-        phoneController.text =cubit.profileModel!.data!.phone!  ;
+
         return  ConditionalBuilder(
           condition: cubit.profileModel != null,
           builder: (context)=> Padding(
@@ -47,7 +51,7 @@ class Settings extends StatelessWidget {
                           border:  OutlineInputBorder(),
                           focusedBorder:OutlineInputBorder(borderSide:BorderSide(color: Colors.deepOrange) )  ,
 
-                          prefixIcon: Icon(Icons.email_outlined,color: Colors.grey,),
+                          prefixIcon: Icon(Icons.drive_file_rename_outline_outlined,color: Colors.grey,),
 
 
 
@@ -76,11 +80,8 @@ class Settings extends StatelessWidget {
                           border:  OutlineInputBorder(),
                           focusedBorder:OutlineInputBorder(borderSide:BorderSide(color: Colors.deepOrange) )  ,
 
-                          prefixIcon: Icon(Icons.lock_outline_rounded,color: Colors.grey,),
-                          suffixIcon: IconButton(icon:Icon(Icons.home),color: Colors.grey,onPressed: ()
-                          {
+                          prefixIcon: Icon(Icons.email_outlined,color: Colors.grey,),
 
-                          }),
 
 
                         ) ,
@@ -108,7 +109,7 @@ class Settings extends StatelessWidget {
                           border:  OutlineInputBorder(),
                           focusedBorder:OutlineInputBorder(borderSide:BorderSide(color: Colors.deepOrange) )  ,
 
-                          prefixIcon: Icon(Icons.email_outlined,color: Colors.grey,),
+                          prefixIcon: Icon(Icons.phone,color: Colors.grey,),
 
 
 

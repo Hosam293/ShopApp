@@ -10,6 +10,7 @@ import 'package:shopapp/view/screen/OnBoardAndLogin/LoginScreen.dart';
 import 'package:shopapp/view/screen/OnBoardAndLogin/OnBoardScreen.dart';
 import 'package:shopapp/view/screen/ShopLayout.dart';
 
+import 'cubit/AppCubit/AppStates.dart';
 import 'cubit/ShopCubit/ShopCubit.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -21,51 +22,72 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
- main() async {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   DioHelper.init();
   await CacheHelper.init();
+  var isDark = CacheHelper.getData(key: 'isDark');
   var onBoarding = CacheHelper.getData(key: 'onBoarding');
-   token =CacheHelper.getData(key: 'token');
+  token = CacheHelper.getData(key: 'token');
   Widget startScreen;
-if(onBoarding != null){
-  if(token != null) {
-    startScreen = ShopLayout();
-  }else{
-    startScreen =LoginScreen();
+  if (onBoarding != null) {
+    if (token != null) {
+      startScreen = ShopLayout();
+    } else {
+      startScreen = LoginScreen();
+    }
+  } else {
+    startScreen = OnBoardScreen();
   }
-}else{
-  startScreen =OnBoardScreen();
-}
   runApp(MyApp(
-    onBoarding: onBoarding,
-    token:token,startScreen: startScreen,
-  ));
+      onBoarding: onBoarding,
+      token: token,
+      startScreen: startScreen,
+      isDark: isDark));
 }
 
 class MyApp extends StatelessWidget {
-   var onBoarding;
-   var token;
+  var onBoarding;
+  var token;
   final Widget startScreen;
+  var isDark;
 
-  MyApp({required this.onBoarding,required this.token,required this.startScreen});
+  MyApp(
+      {required this.onBoarding,
+      required this.token,
+      required this.startScreen,
+      required this.isDark});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers:
-      [
-        BlocProvider(create: (BuildContext context) =>AppCubit()..getHomeData()..getCateData()..getProfileData(),),
-        BlocProvider(create: (BuildContext context) =>ShopCubit(),),
-      ],
-      child: MaterialApp(
-        title: 'OnBoardScreen',
-        theme: ThemeData(
-          primaryColor: Colors.blue
+      providers: [
+        BlocProvider(
+          create: (BuildContext context) => AppCubit()
+            ..getHomeData()
+            ..getCateData()
+            ..getProfileData()..changeMode(isShared: isDark),
         ),
-        debugShowCheckedModeBanner: false,
-        home: startScreen,
+        BlocProvider(
+          create: (BuildContext context) => ShopCubit(),
+        ),
+      ],
+      child: BlocConsumer<AppCubit,AppStates>(
+        listener: (context,state){},
+        builder: (context,state)
+        {
+          var cubit = BlocProvider.of<AppCubit>(context);
+          return MaterialApp(
+            title: 'OnBoardScreen',
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: (cubit.isDark) ? ThemeMode.dark: ThemeMode.light,
+            debugShowCheckedModeBanner: false,
+            home: startScreen,
+          );
+        },
+
       ),
     );
   }

@@ -52,10 +52,7 @@ class Products extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Products',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 24,),
                         ),
                       ),
                       SizedBox(
@@ -113,10 +110,7 @@ class Products extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Category',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 24,)
                         ),
                       ),
                       GridView.count(
@@ -130,40 +124,43 @@ class Products extends StatelessWidget {
                             cubit.homeModel!.data!.products.length, (index) {
                           return Column(
                             children: [
-                              Stack(
-                                alignment: Alignment.bottomLeft,
-                                children: [
-                                  Image(
-                                    image: NetworkImage(
-                                        '${cubit.homeModel!.data!.products[index].image}'),
-                                    height: 200,
-                                    width: double.infinity,
-                                  ),
-                                  if (cubit.homeModel!.data!.products[index]
-                                          .discount !=
-                                      0)
-                                    Container(
-                                      padding: EdgeInsetsDirectional.all(8),
-                                      color: Colors.red,
-                                      child: Text(
-                                        'DISCOUNT',
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                    )
-                                ],
+                              Container(
+                                color: Theme.of(context).scaffoldBackgroundColor,
+
+                                child: Stack(
+                                  alignment: Alignment.bottomLeft,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(
+                                          '${cubit.homeModel!.data!.products[index].image}'),
+                                      height: 200,
+                                      width: double.infinity,
+
+
+                                    ),
+                                    if (cubit.homeModel!.data!.products[index]
+                                            .discount !=
+                                        0)
+                                      Container(
+                                        padding: EdgeInsetsDirectional.all(8),
+                                        color: Colors.red,
+                                        child: Text(
+                                          'DISCOUNT',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      )
+                                  ],
+                                ),
                               ),
                               Container(
                                 padding: EdgeInsetsDirectional.all(8),
-                                color: Colors.white,
+                                color: Theme.of(context).scaffoldBackgroundColor,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       '${cubit.homeModel!.data!.products[index].name}',
-                                      style: TextStyle(
-                                        height: 1.1,
-                                        fontSize: 14,
-                                      ),
+                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14,height: 1.1),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                     ),
@@ -171,8 +168,7 @@ class Products extends StatelessWidget {
                                       children: [
                                         Text(
                                           '${cubit.homeModel!.data!.products[index].price}',
-                                          style: TextStyle(
-                                              fontSize: 12, color: Colors.blue),
+                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 12),
                                         ),
                                         SizedBox(
                                           width: 5.0,
@@ -201,7 +197,6 @@ class Products extends StatelessWidget {
                                                   color: Colors.white,
                                                   size: 14,
                                                 ))),
-                                        Container()
                                       ],
                                     ),
                                   ],

@@ -14,7 +14,7 @@ class Categories extends StatelessWidget {
         var cubit = BlocProvider.of<AppCubit>(context);
 
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
             body: ListView.separated(
 
@@ -58,11 +58,7 @@ class Categories extends StatelessWidget {
                           children: [
                             Text(
                               '${cubit.categoryModel!.data!.data[index].name}',
-                              style: TextStyle(
-                                height: 1.1,
-                                fontSize: 20,
-                                color: Colors.black
-                              ),
+                              style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20,height: 1.1),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
@@ -71,8 +67,7 @@ class Categories extends StatelessWidget {
                               children: [
                                 Text(
                                   '${cubit.homeModel!.data!.products[index].price}',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.blue),
+                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 12),
                                 ),
                                 SizedBox(
                                   width: 5.0,
@@ -82,11 +77,7 @@ class Categories extends StatelessWidget {
                                     0)
                                   Text(
                                     '${cubit.homeModel!.data!.products[index].oldPrice}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        decoration:
-                                        TextDecoration.lineThrough),
+                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 12,decoration: TextDecoration.lineThrough),
                                   ),
                                 Spacer(),
                                 IconButton(

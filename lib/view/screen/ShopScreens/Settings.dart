@@ -144,11 +144,7 @@ class Settings extends StatelessWidget {
                             );
                           });
                         },child: Text(
-                          'LogOut',style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-
-                        ),
+                          'Logout',style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 20)
 
                         ),
                           color: Colors.blue,

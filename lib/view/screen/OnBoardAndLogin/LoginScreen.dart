@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopapp/controller/CacheHelper.dart';
 import 'package:shopapp/cubit/AppCubit/AppCubit.dart';
-import 'package:shopapp/cubit/ShopCubit/ShopCubit.dart';
 import 'package:shopapp/view/screen/OnBoardAndLogin/RegisterScreen.dart';
 import 'package:shopapp/view/screen/ShopLayout.dart';
 

@@ -11,7 +11,6 @@ import 'package:shopapp/view/screen/OnBoardAndLogin/OnBoardScreen.dart';
 import 'package:shopapp/view/screen/ShopLayout.dart';
 
 import 'cubit/AppCubit/AppStates.dart';
-import 'cubit/ShopCubit/ShopCubit.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -69,9 +68,7 @@ class MyApp extends StatelessWidget {
             ..getCateData()
             ..getProfileData()..changeMode(isShared: isDark),
         ),
-        BlocProvider(
-          create: (BuildContext context) => ShopCubit(),
-        ),
+
       ],
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},

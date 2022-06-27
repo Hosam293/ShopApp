@@ -1,12 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopapp/cubit/ShopCubit/ShopCubit.dart';
 import 'package:shopapp/view/screen/OnBoardAndLogin/LoginScreen.dart';
 
 import '../../../cubit/AppCubit/AppCubit.dart';
 import '../../../cubit/AppCubit/AppStates.dart';
-import '../../../cubit/ShopCubit/ShopStates.dart';
 
 class RegisterScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
